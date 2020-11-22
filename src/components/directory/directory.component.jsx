@@ -3,8 +3,8 @@ import MenuItem from '../menu-item/menu-item.component'
 import './directory.styles.scss'
 
 class Directory extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state = {
              sections : [
@@ -47,8 +47,13 @@ class Directory extends React.Component {
     render(){
         return(
             <div className='directory-menu'>
-                {this.state.sections.map(({title, imageUrl, size, id, linkUrl}) => 
-                    <MenuItem key={id} title={title} imageUrl={imageUrl} size={size} />   
+                {/* {this.state.sections.map(({title, imageUrl, size, id, linkUrl}) => 
+                    <MenuItem key={id} title={title} imageUrl={imageUrl} size={size} linkUrl={linkUrl} />   
+                )} */}
+
+                {/* ES6 Syntax, spreading props */}
+                {this.state.sections.map(({id, ...otherSectionProps}) => 
+                    <MenuItem key={id} {...otherSectionProps}/>   
                 )}
             </div>
         )
