@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom'; //Higher order component -> Takes
 import './menu-item.styles.scss'
 
 const MenuItem = ({title, imageUrl, size, linkUrl, history, match}) => 
-    <div className={`${size} menu-item`} onClick={()=> history.push(`${match.url}${linkUrl}`)}>
+    // rerender page by changing url
+    <div className={`${size} menu-item`} onClick={()=> history.push(`${match.url}${linkUrl}`)}> 
         <div style={{backgroundImage:`url(${imageUrl})`}} className="background-image"></div>
         <div className='content'>
             <div className='title'>{title.toUpperCase()}</div>
