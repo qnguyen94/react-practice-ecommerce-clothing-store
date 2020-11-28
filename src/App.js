@@ -1,6 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions'
+
 import './App.css';
 
 import ShopPage from './pages/shop/shop.component'
@@ -10,18 +13,13 @@ import SignInSignUpPage from './pages/sign-in-up/sign-in-up.component'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
 class App extends React.Component {
-  constructor(){
-    super();
-
-    this.state = {
-      currentUser: null
-    }
-  }
 
   // Close subscription when component unmount, prevents memory leaks
   unsubscribeFromAuth = null;
 
   componentDidMount(){
+    const { setCurrentUser } = this.props;
+
     //Get auth from auth object
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(userAuth){
@@ -29,7 +27,7 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
-          this.setState({
+          setCurrentUser({
             currentUser: {
               id: snapShot.id,
               ...snapShot.data()
@@ -38,9 +36,7 @@ class App extends React.Component {
         })
       }
       else {
-        this.setState({
-          currentUser: userAuth
-        })
+        setCurrentUser(userAuth);
       }
     })
   }
@@ -53,7 +49,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header />
         {/* Switch renders components as soon as there's a match and render no more */}
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -65,4 +61,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(App);

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 
 import { auth } from '../../firebase/firebase.utils'
@@ -26,4 +28,11 @@ const Header = ({ currentUser }) => (
     </div>
 )
 
-export default Header;
+
+// 'state' here will be state passed in by redux store
+// local component props now receives 'currentUser' from store
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Header);
