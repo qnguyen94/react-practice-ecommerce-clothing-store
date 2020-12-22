@@ -13,6 +13,7 @@ import HomePage from './pages/homepage/homepage.component'
 import Header from './components/header/header.component'
 import SignInSignUpPage from './pages/sign-in-up/sign-in-up.component'
 import CheckoutPage from './pages/checkout/checkout.component'
+
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
 
