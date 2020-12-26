@@ -41,6 +41,26 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef;
 }
 
+export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+        const { title, items } = doc.data();
+
+        return {
+            routeName: encodeURI(title.toLowerCase()), // convert title into browser readable route format
+            id: doc.id,
+            title,
+            items
+        }
+    });
+
+    // In the local application, replace the snapshot ref (key) with the the title as key
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator
+    }, {})
+}
+
+// Initialize Firebase
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
