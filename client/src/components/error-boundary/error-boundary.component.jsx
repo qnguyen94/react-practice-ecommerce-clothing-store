@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+    ErrorImageOverlay,
+    ErrorImageContainer,
+    ErrorImageText
+} from './error-boundary.styles'
 
 // Use either one or two signalling life cycle methods
 // Wrap this component around any component that need to watch for error
@@ -32,7 +37,12 @@ class ErrorBoundary extends React.Component{
 
         // Render error message when error is caught
         if(this.state.hasErrored)   {
-            return <div>Something went wrong !</div>
+            return (
+                <ErrorImageOverlay>
+                    <ErrorImageContainer imageUrl='./images/404.png'/>
+                    <ErrorImageText>OOPS ! WE TRIPPED UP! LOOKS LIKE THERE'S NOTHING HERE...</ErrorImageText>
+                </ErrorImageOverlay>
+            )
         }
         
         // Otherwise, return the chilren component wrapped inside this error boundary component, as normal
